@@ -32,9 +32,8 @@ namespace ShrubsBudgetFinance
                 })
                 .AddIdentityCookies();
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            var connectionString = builder.Configuration.GetConnectionString("IncomeBreakdownConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -69,6 +68,7 @@ namespace ShrubsBudgetFinance
             //Database and Table Creation
             Data.Data.incomeContext = new IncomeBreakdownContext();
 
+            Data.Data.incomeContext.Database.EnsureDeleted();
 			Data.Data.incomeContext.Database.EnsureCreated();
             Data.Data.incomeContext.Set<Config>().Load();
             Data.Data.incomeContext.Set<IncomeBreakdown>().Load();
