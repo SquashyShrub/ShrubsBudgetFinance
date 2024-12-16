@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using ShrubsBudgetFinance.Components;
 using ShrubsBudgetFinance.Components.Account;
 using ShrubsBudgetFinance.Data;
+using ShrubsBudgetFinance.Data.Config;
+using ShrubsBudgetFinance.Models;
 
 namespace ShrubsBudgetFinance
 {
@@ -12,9 +14,10 @@ namespace ShrubsBudgetFinance
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var incomeContext = new IncomeBreakdownContext();
 
-            // Add services to the container.
-            builder.Services.AddRazorComponents()
+			// Add services to the container.
+			builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
             builder.Services.AddCascadingAuthenticationState();
@@ -63,8 +66,15 @@ namespace ShrubsBudgetFinance
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
 
-            // Add additional endpoints required by the Identity /Account Razor components.
-            app.MapAdditionalIdentityEndpoints();
+            //Database and Table Creation
+            Data.Data.incomeContext = new IncomeBreakdownContext();
+
+			Data.Data.incomeContext.Database.EnsureCreated();
+            Data.Data.incomeContext.Set<Config>().Load();
+            Data.Data.incomeContext.Set<IncomeBreakdown>().Load();
+
+			// Add additional endpoints required by the Identity /Account Razor components.
+			app.MapAdditionalIdentityEndpoints();
 
             app.Run();
         }

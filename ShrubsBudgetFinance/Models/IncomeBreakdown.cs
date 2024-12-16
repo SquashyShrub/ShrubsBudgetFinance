@@ -10,6 +10,7 @@ namespace ShrubsBudgetFinance.Models
 		public string? rowName { get; set; }
 		public decimal monthlyValue { get; set; }
 		public decimal yearlyValue { get; set; }
+		public int ConfigId { get; set; }
 
 		public virtual Config? Config { get; set; }
 	}

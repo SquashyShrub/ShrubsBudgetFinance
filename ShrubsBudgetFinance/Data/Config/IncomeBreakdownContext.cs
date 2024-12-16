@@ -27,12 +27,12 @@ namespace ShrubsBudgetFinance.Data.Config
 				);
 
 			modelBuilder.Entity<IncomeBreakdown>().HasData(
-				new IncomeBreakdown { rowId = 1, rowName = "GrossSalary", monthlyValue = 0, yearlyValue = 0 },
-				new IncomeBreakdown { rowId = 2, rowName = "PassiveContribution", monthlyValue = 0, yearlyValue = 0 },
-				new IncomeBreakdown { rowId = 3, rowName = "NetIncome", monthlyValue = 0, yearlyValue = 0 },
-				new IncomeBreakdown { rowId = 4, rowName = "AvgExtraIncome", monthlyValue = 0, yearlyValue = 0 },
-				new IncomeBreakdown { rowId = 5, rowName = "GrossTotalIncome", monthlyValue = 0, yearlyValue = 0 },
-				new IncomeBreakdown { rowId = 6, rowName = "NetTotalIncome", monthlyValue = 0, yearlyValue = 0 }
+				new IncomeBreakdown { rowId = 1, rowName = "GrossSalary", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
+				new IncomeBreakdown { rowId = 2, rowName = "PassiveContribution", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
+				new IncomeBreakdown { rowId = 3, rowName = "NetIncome", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
+				new IncomeBreakdown { rowId = 4, rowName = "AvgExtraIncome", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
+				new IncomeBreakdown { rowId = 5, rowName = "GrossTotalIncome", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
+				new IncomeBreakdown { rowId = 6, rowName = "NetTotalIncome", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 }
 				);
 		}
 	}
