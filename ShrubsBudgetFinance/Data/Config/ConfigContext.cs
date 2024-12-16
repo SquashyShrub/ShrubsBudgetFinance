@@ -4,7 +4,7 @@ using ConfigModel = ShrubsBudgetFinance.Models.Config; //Using alias because I g
 
 namespace ShrubsBudgetFinance.Data.Config
 {
-	public class IncomeBreakdownContext : DbContext
+	public class ConfigContext : DbContext
 	{
 		public DbSet<ConfigModel>? Configs { get; set; }
 		public DbSet<IncomeBreakdown>? IncomeBreakdowns { get; set; }

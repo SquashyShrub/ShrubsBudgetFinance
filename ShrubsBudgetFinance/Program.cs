@@ -14,7 +14,7 @@ namespace ShrubsBudgetFinance
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var incomeContext = new IncomeBreakdownContext();
+            var incomeContext = new ConfigContext();
 
 			// Add services to the container.
 			builder.Services.AddRazorComponents()
@@ -25,7 +25,13 @@ namespace ShrubsBudgetFinance
             builder.Services.AddScoped<IdentityRedirectManager>();
             builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-            builder.Services.AddAuthentication(options =>
+            //ADDED SERVICES
+            builder.Services.AddScoped(http => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetSection("BaseUri").Value!) });
+            builder.Services.AddDbContext<ConfigContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("IncomeBreakdownConnection")));
+
+			//END OF ADDED SERVICES
+
+			builder.Services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = IdentityConstants.ApplicationScheme;
                     options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
@@ -66,7 +72,7 @@ namespace ShrubsBudgetFinance
                 .AddInteractiveServerRenderMode();
 
             //Database and Table Creation
-            Data.Data.incomeContext = new IncomeBreakdownContext();
+            Data.Data.incomeContext = new ConfigContext();
 
             Data.Data.incomeContext.Database.EnsureDeleted();
 			Data.Data.incomeContext.Database.EnsureCreated();
