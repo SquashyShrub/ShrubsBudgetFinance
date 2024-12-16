@@ -6,6 +6,7 @@ using ShrubsBudgetFinance.Components.Account;
 using ShrubsBudgetFinance.Data;
 using ShrubsBudgetFinance.Data.Config;
 using ShrubsBudgetFinance.Models;
+using ShrubsBudgetFinance.Services;
 
 namespace ShrubsBudgetFinance
 {
@@ -25,11 +26,14 @@ namespace ShrubsBudgetFinance
             builder.Services.AddScoped<IdentityRedirectManager>();
             builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-            //ADDED SERVICES
+            ///ADDED SERVICES
+            //Server Connection
             builder.Services.AddScoped(http => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetSection("BaseUri").Value!) });
             builder.Services.AddDbContext<ConfigContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("IncomeBreakdownConnection")));
-
-			//END OF ADDED SERVICES
+            //Controller Connection
+            builder.Services.AddControllers();
+            builder.Services.AddScoped<IncomeBreakdownService>();
+			///END OF ADDED SERVICES
 
 			builder.Services.AddAuthentication(options =>
                 {
@@ -50,9 +54,13 @@ namespace ShrubsBudgetFinance
             builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
             var app = builder.Build();
+            
+            ///ADDED
+			app.MapControllers();
+            ///END ADDED
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+			// Configure the HTTP request pipeline.
+			if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();
             }
