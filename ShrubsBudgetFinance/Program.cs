@@ -32,7 +32,7 @@ namespace ShrubsBudgetFinance
             ///ADDED SERVICES
             //Server Connection
             builder.Services.AddScoped(http => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetSection("BaseUri").Value!) });
-            builder.Services.AddDbContext<ConfigContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("IncomeBreakdownConnection")));
+            builder.Services.AddDbContext<ConfigContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("ConfigConnection")));
             //Controller Connection
             builder.Services.AddControllers();
             builder.Services.AddScoped<IncomeBreakdownService>();

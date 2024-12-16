@@ -1,0 +1,32 @@
+﻿@page "/config/incomebreakdown"
+
+@using Syncfusion.Blazor.Data
+@using ShrubsBudgetFinance.Models
+@using ShrubsBudgetFinance.Services
+
+@inject IncomeBreakdownService incomes
+
+<head>
+    <title>Income Breakdown</title>
+    @* <style>   
+    </style> *@
+</head>
+<body>
+    <h1>Income Breakdown</h1>
+    <p>Enter your gross monthly salary and other income details below</p>
+
+    <SfGrid DataSource="@IncomeBreakdowns" TValue="IncomeBreakdown">
+        <GridColumns>
+			<GridColumn Field="@nameof(IncomeBreakdown.rowId)" IsPrimaryKey="true" IsIdentity="true" Visible = "false"></GridColumn>
+        </GridColumns>
+    </SfGrid>
+
+</body>
+@code {
+    public List<IncomeBreakdown>? IncomeBreakdowns { get; set; }
+    protected override async Task OnInitializedAsync() 
+    {
+        IncomeBreakdowns = await incomes.GetIncomeBreakdowns();
+    }
+    
+}

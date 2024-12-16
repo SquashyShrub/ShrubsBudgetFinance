@@ -1,4 +1,4 @@
-﻿using ShrubsBudgetFinance.Components.Pages.Config;
+﻿using ShrubsBudgetFinance.Models;
 
 namespace ShrubsBudgetFinance.Services
 {
