@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+using Syncfusion.Blazor;
+
 using ShrubsBudgetFinance.Components;
 using ShrubsBudgetFinance.Components.Account;
 using ShrubsBudgetFinance.Data;
@@ -33,6 +36,8 @@ namespace ShrubsBudgetFinance
             //Controller Connection
             builder.Services.AddControllers();
             builder.Services.AddScoped<IncomeBreakdownService>();
+			//Syncfusion
+			builder.Services.AddSyncfusionBlazor();
 			///END OF ADDED SERVICES
 
 			builder.Services.AddAuthentication(options =>
