@@ -16,7 +16,8 @@ namespace ShrubsBudgetFinance
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+			Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NMaF5cXmBCf0x3Q3xbf1x1ZFFMYVhbRnNPIiBoS35RckRhWHhfdnVRRGdfUkNx");
+			var builder = WebApplication.CreateBuilder(args);
             var incomeContext = new ConfigContext();
 
 			// Add services to the container.
@@ -37,6 +38,8 @@ namespace ShrubsBudgetFinance
             builder.Services.AddScoped<IncomeBreakdownService>();
 			//Syncfusion
 			builder.Services.AddSyncfusionBlazor();
+			//Register Config services
+			builder.Services.AddScoped<IConfigService<IncomeBreakdown>, ConfigService>();
 			///END OF ADDED SERVICES
 
 			builder.Services.AddAuthentication(options =>
@@ -46,7 +49,7 @@ namespace ShrubsBudgetFinance
                 })
                 .AddIdentityCookies();
 
-            var connectionString = builder.Configuration.GetConnectionString("IncomeBreakdownConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            var connectionString = builder.Configuration.GetConnectionString("ConfigConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

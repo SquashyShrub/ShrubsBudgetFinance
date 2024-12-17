@@ -5,6 +5,9 @@ namespace ShrubsBudgetFinance.Data
 {
 	public partial class ConfigContext : DbContext
 	{
+		public ConfigContext() { }
+		public ConfigContext(DbContextOptions<ConfigContext> options) : base(options) { }
+
 		public DbSet<Config>? Configs { get; set; }
 		public DbSet<IncomeBreakdown>? IncomeBreakdowns { get; set; }
 
@@ -31,6 +34,7 @@ namespace ShrubsBudgetFinance.Data
 				entity.Property(e => e.rowName);
 				entity.Property(e => e.monthlyValue);
 			});
+
 
 			OnModelCreatingPartial(modelBuilder);
 		}

@@ -1,6 +1,6 @@
 ﻿namespace ShrubsBudgetFinance.Services
 {
-	public interface IConfigService<T> 
+	public interface IConfigService<T>
 	{
 		IEnumerable<T> Get();
 		void Insert(T entity);
