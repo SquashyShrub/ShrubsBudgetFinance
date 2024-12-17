@@ -18,6 +18,9 @@
     <SfGrid DataSource="@IncomeBreakdowns" TValue="IncomeBreakdown">
         <GridColumns>
 			<GridColumn Field="@nameof(IncomeBreakdown.rowId)" IsPrimaryKey="true" IsIdentity="true" Visible = "false"></GridColumn>
+            <GridColumn Field="@nameof(IncomeBreakdown.rowName)" Width="150"></GridColumn>
+            <GridColumn Field="@nameof(IncomeBreakdown.monthlyValue)" Width="150"></GridColumn>
+            <GridColumn Field="@nameof(IncomeBreakdown.yearlyValue)" Width="150"></GridColumn>
         </GridColumns>
     </SfGrid>
 

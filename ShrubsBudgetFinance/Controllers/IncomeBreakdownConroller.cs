@@ -1,7 +1,6 @@
 ﻿using ShrubsBudgetFinance.Models;
 using Microsoft.AspNetCore.Mvc;
-using ShrubsBudgetFinance.Data.Config;
-using System.Diagnostics.Eventing.Reader;
+using ShrubsBudgetFinance.Data;
 
 namespace ShrubsBudgetFinance.Controllers
 {

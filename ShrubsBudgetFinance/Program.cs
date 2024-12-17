@@ -7,7 +7,6 @@ using Syncfusion.Blazor;
 using ShrubsBudgetFinance.Components;
 using ShrubsBudgetFinance.Components.Account;
 using ShrubsBudgetFinance.Data;
-using ShrubsBudgetFinance.Data.Config;
 using ShrubsBudgetFinance.Models;
 using ShrubsBudgetFinance.Services;
 
