@@ -29,7 +29,12 @@ namespace ShrubsBudgetFinance.Data
 				);
 
 			modelBuilder.Entity<IncomeBreakdown>().HasData(
-				new IncomeBreakdown { rowId = 1, rowName = "Gross Salary", monthlyValue = 0, yearlyValue = 0, ConfigId = 1}
+				new IncomeBreakdown { rowId = 1, rowName = "Gross Salary", monthlyValue = 0, yearlyValue = 0, ConfigId = 1},
+				new IncomeBreakdown { rowId = 2, rowName = "Passive Investment Contribution", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
+				new IncomeBreakdown { rowId = 3, rowName = "Net Income", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
+				new IncomeBreakdown { rowId = 4, rowName = "Average Extra Income", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
+				new IncomeBreakdown { rowId = 5, rowName = "Total Gross Income", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
+				new IncomeBreakdown { rowId = 6, rowName = "Net Total Income", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 }
 				);
 
 			//modelBuilder.Entity<IncomeBreakdown>(entity =>

@@ -5,7 +5,7 @@
 		IEnumerable<T> Get();
 		void Insert(T entity);
 		void Update(int id, T entity);
-		void FindOne(int id);
+		T FindOne(int id);
 		void Delete(int id);
 	}
 }

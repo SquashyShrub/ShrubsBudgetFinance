@@ -3,6 +3,7 @@
 @using Syncfusion.Blazor.Data
 @using ShrubsBudgetFinance.Models
 @using ShrubsBudgetFinance.Services
+@using ShrubsBudgetFinance.Data
 
 @inject IncomeBreakdownService incomes
 
@@ -10,41 +11,41 @@
     <title>Income Breakdown</title>
     <style>
         body {
-            font-family: Consolas;
-            margin: 10px;
+        font-family: Consolas;
+        margin: 10px;
         }
 
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 10px;
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
         }
 
         td {
-            border: 1px solid grey;
-            padding-left: 10px;
-            padding-right: 10px;
+        border: 1px solid grey;
+        padding-left: 10px;
+        padding-right: 10px;
         }
 
         th {
-            background-color: lightgrey;
-            font-size: 24px;
-            padding: 10px;
-            border: 1px solid grey;
-            text-align: center;
+        background-color: lightgrey;
+        font-size: 24px;
+        padding: 10px;
+        border: 1px solid grey;
+        text-align: center;
         }
 
         input {
-            margin-top: 4px;
-            margin-bottom: 4px;
-            width: 100%;
-            padding: 2px;
-            box-sizing: border-box;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        width: 100%;
+        padding: 2px;
+        box-sizing: border-box;
         }
     </style>
 </head>
 <body>
-    @* <h1>Income Breakdown</h1>
+    <h1>Income Breakdown</h1>
     <p>Enter your gross monthly salary and other income details below</p>
 
     <table id="incomeBreakdownTable">
@@ -101,21 +102,10 @@
         </tbody>
     </table>
     <div class="d-flex align-items-center">
-        <button class="btn btn-primary">Save Data</button>
-    </div> *@
-
-
-
-    <SfGrid DataSource="@IncomeBreakdowns" TValue="IncomeBreakdown">
-        <GridColumns>
-			<GridColumn Field="@nameof(IncomeBreakdown.rowId)" IsPrimaryKey="true" IsIdentity="true" Visible = "false"></GridColumn>
-            <GridColumn Field="@nameof(IncomeBreakdown.rowName)" Width="150"></GridColumn>
-            <GridColumn Field="@nameof(IncomeBreakdown.monthlyValue)" Width="150"></GridColumn>
-            <GridColumn Field="@nameof(IncomeBreakdown.yearlyValue)" Width="150"></GridColumn>
-        </GridColumns>
-    </SfGrid>
-
+        <button class="btn btn-primary" @onclick=SaveData>Save Data</button>
+    </div>
 </body>
+
 @code {
     //Variables
     private decimal grossMonthly;
@@ -136,12 +126,41 @@
     private decimal monthlyNetTotal => monthlyNetIncome - monthlyPassiveContribution + monthlyAvgExtraIncome;
     private decimal annualNetTotal => monthlyNetTotal * 12;
 
-
-
-    public List<IncomeBreakdown>? IncomeBreakdowns { get; set; }
-    protected override async Task OnInitializedAsync() 
+    private void SaveData() 
     {
-        IncomeBreakdowns = await incomes.GetIncomeBreakdowns();
+        ConfigContext config = new ConfigContext();
+        ConfigService configService = new ConfigService(config);
+        //		public async Task UpdateIncome(int incomeId, IncomeBreakdown income)
+
+        var incomeToUpdate = configService.FindOne(1);
+        incomeToUpdate.monthlyValue = grossMonthly;
+        incomeToUpdate.yearlyValue = grossAnnual;
+        incomes.UpdateIncome(1, incomeToUpdate);
+
+		incomeToUpdate = configService.FindOne(2);
+		incomeToUpdate.monthlyValue = monthlyPassiveContribution;
+		incomeToUpdate.yearlyValue = annualPassiveContribution;
+		incomes.UpdateIncome(2, incomeToUpdate);
+
+		incomeToUpdate = configService.FindOne(3);
+		incomeToUpdate.monthlyValue = monthlyNetIncome;
+        incomeToUpdate.yearlyValue = annualNetIncome;
+        incomes.UpdateIncome(3, incomeToUpdate);
+
+        incomeToUpdate = configService.FindOne(4);
+		incomeToUpdate.monthlyValue = monthlyAvgExtraIncome;
+        incomeToUpdate.yearlyValue = annualAvgExtraIncome;
+        incomes.UpdateIncome(4, incomeToUpdate);
+
+		incomeToUpdate = configService.FindOne(5);
+		incomeToUpdate.monthlyValue = monthlyGrossTotal;
+		incomeToUpdate.yearlyValue = annualGrossTotal;
+		incomes.UpdateIncome(5, incomeToUpdate);
+
+        incomeToUpdate = configService.FindOne(6);
+        incomeToUpdate.monthlyValue = monthlyNetTotal;
+		incomeToUpdate.yearlyValue = annualNetTotal;
+		incomes.UpdateIncome(6, incomeToUpdate);
     }
     
 }

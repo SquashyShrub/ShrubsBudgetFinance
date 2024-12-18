@@ -30,9 +30,9 @@ namespace ShrubsBudgetFinance.Services
 			}
 		}
 
-		public void FindOne(int id)
+		public IncomeBreakdown FindOne(int id)
 		{
-			throw new NotImplementedException();
+			return _context.IncomeBreakdowns.Find(id);
 		}
 
 		public IEnumerable<IncomeBreakdown> Get()
@@ -60,14 +60,21 @@ namespace ShrubsBudgetFinance.Services
 			}
 		}
 
-		public void Update(int id, IncomeBreakdown entity)
+		public void Update(int id, IncomeBreakdown income)
 		{
 			try
 			{
-				var local = _context.Set<IncomeBreakdown>().Local.FirstOrDefault(entry => entry.rowId.Equals(entry.rowId));
-				if (local != null)
+				//var local = _context.Set<IncomeBreakdown>().Local.FirstOrDefault(entry => entry.rowId.Equals(entry.rowId));
+				//if (local != null)
+				//{
+				//	_context.Entry(local).State = EntityState.Modified;
+				//	_context.SaveChanges();
+				//}
+				var incomeToUpdate = _context.IncomeBreakdowns.Find(id);
+				if (incomeToUpdate != null)
 				{
-					_context.Entry(local).State = EntityState.Modified;
+					incomeToUpdate.monthlyValue = income.monthlyValue;
+					incomeToUpdate.yearlyValue = income.yearlyValue;
 					_context.SaveChanges();
 				}
 			}
