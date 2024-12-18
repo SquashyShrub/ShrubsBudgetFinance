@@ -28,12 +28,16 @@ namespace ShrubsBudgetFinance.Data
 				new Config { TableId = 8, TableName = "Overview" }
 				);
 
-			modelBuilder.Entity<IncomeBreakdown>(entity =>
-			{
-				entity.ToTable("IncomeBreakdown");
-				entity.Property(e => e.rowName);
-				entity.Property(e => e.monthlyValue);
-			});
+			modelBuilder.Entity<IncomeBreakdown>().HasData(
+				new IncomeBreakdown { rowId = 1, rowName = "Gross Salary", monthlyValue = 0, yearlyValue = 0, ConfigId = 1}
+				);
+
+			//modelBuilder.Entity<IncomeBreakdown>(entity =>
+			//{
+			//	entity.ToTable("IncomeBreakdown");
+			//	entity.Property(e => e.rowName);
+			//	entity.Property(e => e.monthlyValue);
+			//});
 
 
 			OnModelCreatingPartial(modelBuilder);

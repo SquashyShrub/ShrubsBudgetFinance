@@ -8,12 +8,103 @@
 
 <head>
     <title>Income Breakdown</title>
-    @* <style>   
-    </style> *@
+    <style>
+        body {
+            font-family: Consolas;
+            margin: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        td {
+            border: 1px solid grey;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        th {
+            background-color: lightgrey;
+            font-size: 24px;
+            padding: 10px;
+            border: 1px solid grey;
+            text-align: center;
+        }
+
+        input {
+            margin-top: 4px;
+            margin-bottom: 4px;
+            width: 100%;
+            padding: 2px;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
-    <h1>Income Breakdown</h1>
+    @* <h1>Income Breakdown</h1>
     <p>Enter your gross monthly salary and other income details below</p>
+
+    <table id="incomeBreakdownTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Monthly</th>
+                <th>Annual</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Gross Salary</td>
+                <td><input type="number" id="grossSalary" @bind-value="grossMonthly" @bind-value:event="oninput" placeholder="Monthly Salary"></td>
+                <td class="fst-italic">@grossAnnual.ToString("C")</td>
+                <td class="fst-italic" style="font-size: 14px; border-right: 0px; border-top: 0px; border-bottom: 0px">
+                    Amount made BEFORE taxes
+                </td>
+            </tr>
+            <tr>
+                <td>Passive Investment Contribution</td>
+                <td><input type="number" id="monthlyPassiveInvestment" @bind-value="monthlyPassiveContribution" @bind-value:event="oninput" placeholder="Enter Monthly"></td>
+                <td class="fst-italic">@annualPassiveContribution.ToString("C")</td>
+                <td class="fst-italic" style="font-size: 14px; border-right: 0px; border-top: 0px; border-bottom: 0px">
+                    Assumes it's a pre-tax account (i.e. 401k) automatically taken from your paycheck. You will name this later.
+                </td>
+            </tr>
+            <tr>
+                <td>Net Monthly Income</td>
+                <td><input type="number" id="netMonthlyIncome" @bind-value="monthlyNetIncome" @bind-value:event="oninput" placeholder="Net Income" /></td>
+                <td class="fst-italic">@annualNetIncome.ToString("C")</td>
+                <td class="fst-italic" style="font-size: 14px; border-right: 0px; border-top: 0px; border-bottom: 0px">
+                    Total take home pay - after money taken out for taxes, health insurance, pre tax retirement, etc. (Bank Deposit)
+                </td>
+            </tr>
+            <tr>
+                <td>Average Extra Monthly Income</td>
+                <td><input type="number" id="avgExtraMonthlyIncome" @bind-value="monthlyAvgExtraIncome" @bind-value:event="oninput" placeholder="Average Extra"></td>
+                <td class="fst-italic">@annualAvgExtraIncome.ToString("C")</td>
+                <td class="fst-italic" style="font-size: 14px; border-right: 0px; border-top: 0px; border-bottom: 0px">
+                    Assumes it is pre-tax money made (i.e. tips, side gigs, extra cash, etc.)
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:8px; color:darkblue" class="fw-bold">Gross Total Income</td>
+                <td class="fst-italic">@monthlyGrossTotal.ToString("C")</td>
+                <td class="fst-italic">@annualGrossTotal.ToString("C")</td>
+            </tr>
+            <tr>
+                <td style="padding:8px; color:blue" class="fw-bold">Net Total Income</td>
+                <td class="fst-italic">@monthlyNetTotal.ToString("C")</td>
+                <td class="fst-italic">@annualNetTotal.ToString("C")</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex align-items-center">
+        <button class="btn btn-primary">Save Data</button>
+    </div> *@
+
+
 
     <SfGrid DataSource="@IncomeBreakdowns" TValue="IncomeBreakdown">
         <GridColumns>
@@ -26,6 +117,27 @@
 
 </body>
 @code {
+    //Variables
+    private decimal grossMonthly;
+    private decimal grossAnnual => grossMonthly * 12;
+
+    private decimal monthlyPassiveContribution;
+    private decimal annualPassiveContribution => monthlyPassiveContribution * 12;
+
+    private decimal monthlyNetIncome;
+    private decimal annualNetIncome => monthlyNetIncome * 12;
+
+    private decimal monthlyAvgExtraIncome;
+    private decimal annualAvgExtraIncome => monthlyAvgExtraIncome * 12;
+
+    private decimal monthlyGrossTotal => grossMonthly - monthlyPassiveContribution + monthlyAvgExtraIncome;
+    private decimal annualGrossTotal => monthlyGrossTotal * 12;
+
+    private decimal monthlyNetTotal => monthlyNetIncome - monthlyPassiveContribution + monthlyAvgExtraIncome;
+    private decimal annualNetTotal => monthlyNetTotal * 12;
+
+
+
     public List<IncomeBreakdown>? IncomeBreakdowns { get; set; }
     protected override async Task OnInitializedAsync() 
     {
