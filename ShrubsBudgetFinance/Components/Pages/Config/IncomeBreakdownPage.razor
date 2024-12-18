@@ -101,12 +101,16 @@
             </tr>
         </tbody>
     </table>
+
     <div class="d-flex align-items-center">
         <button class="btn btn-primary" @onclick=SaveData>Save Data</button>
     </div>
 </body>
 
 @code {
+    static ConfigContext config = new ConfigContext();
+    static ConfigService configService = new ConfigService(config);
+
     //Variables
     private decimal grossMonthly;
     private decimal grossAnnual => grossMonthly * 12;
@@ -128,10 +132,6 @@
 
     private void SaveData() 
     {
-        ConfigContext config = new ConfigContext();
-        ConfigService configService = new ConfigService(config);
-        //		public async Task UpdateIncome(int incomeId, IncomeBreakdown income)
-
         var incomeToUpdate = configService.FindOne(1);
         incomeToUpdate.monthlyValue = grossMonthly;
         incomeToUpdate.yearlyValue = grossAnnual;

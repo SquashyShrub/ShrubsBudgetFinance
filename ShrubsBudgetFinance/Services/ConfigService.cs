@@ -64,12 +64,6 @@ namespace ShrubsBudgetFinance.Services
 		{
 			try
 			{
-				//var local = _context.Set<IncomeBreakdown>().Local.FirstOrDefault(entry => entry.rowId.Equals(entry.rowId));
-				//if (local != null)
-				//{
-				//	_context.Entry(local).State = EntityState.Modified;
-				//	_context.SaveChanges();
-				//}
 				var incomeToUpdate = _context.IncomeBreakdowns.Find(id);
 				if (incomeToUpdate != null)
 				{

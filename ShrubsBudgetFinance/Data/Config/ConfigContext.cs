@@ -3,7 +3,7 @@ using ShrubsBudgetFinance.Models;
 
 namespace ShrubsBudgetFinance.Data
 {
-	public partial class ConfigContext : DbContext
+	public class ConfigContext : DbContext
 	{
 		public ConfigContext() { }
 		public ConfigContext(DbContextOptions<ConfigContext> options) : base(options) { }
@@ -45,9 +45,9 @@ namespace ShrubsBudgetFinance.Data
 			//});
 
 
-			OnModelCreatingPartial(modelBuilder);
+			//OnModelCreatingPartial(modelBuilder);
 		}
 
-		partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+		//partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 	}
 }
