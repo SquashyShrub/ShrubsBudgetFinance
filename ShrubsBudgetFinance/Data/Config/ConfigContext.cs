@@ -15,6 +15,7 @@ namespace ShrubsBudgetFinance.Data
 		public DbSet<AccountNames>? AccountNamess { get; set; }
 		public DbSet<AssetName>? AssetNames { get; set; }
 		public DbSet<LiabilityName>? LiabilityNames { get; set; }
+		public DbSet<MonthlyFixedExpenses>? MonthlyFixedExpensess { get; set; }
 
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

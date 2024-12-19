@@ -38,6 +38,7 @@ namespace ShrubsBudgetFinance
 			builder.Services.AddScoped<IncomeBreakdownService>();
             builder.Services.AddScoped<AccountNamesService>();
             builder.Services.AddScoped<AssetNameService>();
+            builder.Services.AddScoped<LiabilityNameService>();
 			//Syncfusion
 			builder.Services.AddSyncfusionBlazor();
 			//Controller Connection
@@ -45,6 +46,7 @@ namespace ShrubsBudgetFinance
 			builder.Services.AddScoped<IConfigService<IncomeBreakdown>, IncomeController>();
             builder.Services.AddScoped<IConfigService<AccountNames>, AccountController>();
             builder.Services.AddScoped<IConfigService<AssetName>, AssetController>();
+            builder.Services.AddScoped<IConfigService<LiabilityName>, LiabilityController>();
 			///END OF ADDED SERVICES
 
 			builder.Services.AddAuthentication(options =>
@@ -94,7 +96,7 @@ namespace ShrubsBudgetFinance
             //Database and Table Creation
             Data.Data.dataConfigContext = new ConfigContext();
 
-            //Data.Data.dataConfigContext.Database.EnsureDeleted();
+            Data.Data.dataConfigContext.Database.EnsureDeleted();
 			Data.Data.dataConfigContext.Database.EnsureCreated();
             Data.Data.dataConfigContext.Set<Config>().Load();
             Data.Data.dataConfigContext.Set<IncomeBreakdown>().Load();

@@ -1,0 +1,313 @@
+﻿@page "/config/monthlyexpenses"
+@layout NavigationLayout
+
+<head>
+    <title>Fixed Expenses</title>
+    <style>
+        body {
+        font-family: Consolas;
+        margin: 10px;
+        }
+
+        table {
+        width: 60%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        }
+
+        td {
+        border: 1px solid grey;
+        padding-left: 10px;
+        padding-right: 10px;
+        }
+
+        th {
+        background-color: lightgrey;
+        font-size: 24px;
+        padding: 10px;
+        border: 1px solid grey;
+        text-align: center;
+        }
+
+        input {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        width: 100%;
+        padding: 2px;
+        box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Monthly Expenses</h1>
+    <p>Add your monthly expenses below:</p>
+    <table id="monthlyExpensesTable">
+        <thead>
+            <tr>
+                <th class="col-6">Budget Category</th>
+                <th class="col-4">Amount</th>
+                <th class="col-2">% of Net</th>
+            </tr>
+        </thead>
+        <tbody>
+            @* Annual Budget Monthly Contribution *@
+            <tr>
+                <td>Annual Budget Monthly Contribution</td>
+                <td>annual total/12</td>
+                <td>total amount/net total income</td>
+            </tr>
+
+            @* Active Investment Monthly Contribution *@
+            <tr>
+                <td>Active Investment Monthly Contribution</td>
+                <td><input type="number" /></td>
+                <td>total amount/net total income</td>
+            </tr>
+
+            @* Housing *@
+            <tr>
+                <td>Housing</td>
+                <td>
+                    <button class="accordion" @onclick="ToggleHousing">
+                        Housing Total: @totalHousing
+                    </button>
+                    <div class="panel @(livingOpen ? "open" : "")">
+                        <input type="number" id="mortRent" placeholder="Mortage/Rent" @bind="mortRent" />
+                        <input type="number" id="homeInsurance" placeholder="Renters/Home Insurance" @bind="homeInsurance" />
+                        <input type="number" id="hoaFees" placeholder="HOA Fees" @bind="hoaFees" />
+                        <input type="number" id="electricity" placeholder="Total Electricity Bill" @bind="electricity" />
+                        <input type="number" id="gas" placeholder="Gas Bill" @bind="gas" />
+                        <input type="number" id="water" placeholder="Water Bill" @bind="water" />
+                        <input type="number" id="wasteRemoval" placeholder="Waste Removal Fee" @bind="wasteRemoval" />
+                        <input type="number" id="phoneBill" placeholder="Phone Bill" @bind="phoneBill" />
+                    </div>
+                </td>
+                <td> total amount/net total income</td>
+            </tr>
+
+            @* Vehicle Cost *@
+            <tr>
+                <td>Car #1 Total</td>
+                <td>
+                    <button class="accordion" @onclick="ToggleCarOne">
+                        Car #1 Total: @CarTotalOne
+                    </button>
+                    <div class="panel @(carOneOpen ? "open" : "")">
+                        <input type="number" id="monthlyPaymentTextOne" placeholder="Monthly Payment" @bind="MonthlyPaymentOne" />
+                        <input type="number" id="insuranceTextOne" placeholder="Insurance Cost" @bind="InsuranceCostOne" />
+                    </div>
+                </td>
+                <td> total amount/net total income</td>
+            </tr>
+            <tr>
+                <td>Car #2 Total</td>
+                <td>
+                    <button class="accordion" @onclick="ToggleCarTwo">
+                        Car #2 Total: @CarTotalTwo
+                    </button>
+                    <div class="panel @(carTwoOpen ? "open" : "")">
+                        <input type="number" id="monthlyPaymentTextTwo" placeholder="Monthly Payment" @bind="MonthlyPaymentTwo" />
+                        <input type="number" id="insuranceTextTwo" placeholder="Insurance Cost" @bind="InsuranceCostTwo" />
+                    </div>
+                </td>
+                <td> total amount/net total income</td>
+            </tr>
+            <tr>
+                <td>Car #3 Total</td>
+                <td>
+                    <button class="accordion" @onclick="ToggleCarThree">
+                        Car #3 Total: @CarTotalThree
+                    </button>
+                    <div class="panel @(carThreeOpen ? "open" : "")">
+                        <input type="number" id="monthlyPaymentTextThree" placeholder="Monthly Payment" @bind="MonthlyPaymentThree" />
+                        <input type="number" id="insuranceTextThree" placeholder="Insurance Cost" @bind="InsuranceCostThree" />
+                    </div>
+                </td>
+                <td> total amount/net total income</td>
+            </tr>
+
+            @*Loan Repayments*@
+            <tr>
+                <td>Loan/Debt #1</td>
+                <td><input type="number" /></td>
+                <td>total amount/net total income</td>
+            </tr>
+            <tr>
+                <td>Loan/Debt #2</td>
+                <td><input type="number" /></td>
+                <td>total amount/net total income</td>
+            </tr>
+            <tr>
+                <td>Loan/Debt #3</td>
+                <td><input type="number" /></td>
+                <td>total amount/net total income</td>
+            </tr>
+
+            @* Subscriptions *@
+            <tr>
+                <td>Subscriptions/Memberships Total</td>
+                <td>
+                    <button class="accordion" @onclick="ToggleSubscriptions">
+                        Subscriptions Total: @totalSubs
+                    </button>
+                    <div class="panel @(isSubOpen ? "open" : "")">
+                        <input type="number" id="subOne" placeholder="Streaming Subscriptions" @bind="streamingSubscriptions" />
+                        <input type="number" id="subTwo" placeholder="Gym Memberships" @bind="gymMemberships" />
+                        <input type="number" id="subThree" placeholder="Music Subscriptions" @bind="musicSubscriptions" />
+                        <input type="number" id="subFour" placeholder="Shopping Subscriptions" @bind="shoppingSubscriptions" />
+                        <input type="number" id="subFive" placeholder="tvSubscriptions" @bind="tvSubscriptions" />
+                        <input type="number" id="subSix" placeholder="Other Subscriptions" @bind="otherSubscriptions" />
+                    </div>
+                </td>
+                <td> total amount/net total income</td>
+            </tr>
+
+            @* Billing Account Extra Contribution (Acts as emergency savings) *@
+            <tr>
+                <td>Billing Account Monthly Contribution</td>
+                <td><input type="number" /></td>
+                <td>total amount/net total income</td>
+            </tr>
+
+            @* Savings Contribution *@
+            <tr>
+                <td>Savings Monthly Contribution</td>
+                <td><input type="number" /></td>
+                <td>total amount/net total income</td>
+            </tr>
+
+            @* Other ( 5 extra slots) - ex: Credit Card monthly pay offs would go here *@
+            <tr>
+                <td>Other Total: </td>
+                <td>
+                    <button class="accordion" @onclick="ToggleOther">
+                        Other Total: @totalOther
+                    </button>
+                    <div class="panel @(otherOpen ? "open" : "")">
+                        <input type="number" id="otherOne" placeholder="Other #1" @bind="otherOne" />
+                        <input type="number" id="otherTwo" placeholder="Other #2" @bind="otherTwo" />
+                        <input type="number" id="otherThree" placeholder="Other #3" @bind="otherThree" />
+                        <input type="number" id="otherFour" placeholder="Other #4" @bind="otherFour" />
+                        <input type="number" id="otherFive" placeholder="Other #5" @bind="otherFive" />
+                    </div>
+                </td>
+                <td> total amount/net total income</td>
+            </tr>
+
+            @* Total *@
+            <tr>
+                <td>Amount Left for Monthly Budget: </td>
+                <td class="fst-italic">Placeholder</td>
+                <td>100%? - make dynamic</td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-primary">Save Monthly Expenses</button>
+</body>
+
+
+@code {
+    #region Annual Budget
+
+    #endregion Annual Budget
+
+
+    #region Active Investment Contr
+
+    #endregion Active investment Contr
+
+
+    #region Housing
+    private bool livingOpen = false;
+    private decimal totalHousing => mortRent + homeInsurance + hoaFees + electricity + gas + water + wasteRemoval + phoneBill;
+    private decimal mortRent;
+    private decimal homeInsurance;
+    private decimal hoaFees;
+    private decimal electricity;
+    private decimal gas;
+    private decimal water;
+    private decimal wasteRemoval;
+    private decimal phoneBill;
+
+    private void ToggleHousing()
+    {
+        livingOpen = !livingOpen;
+    }
+    #endregion Housing
+
+
+    #region Car
+    private bool carOneOpen = false;
+    private bool carTwoOpen = false;
+    private bool carThreeOpen = false;
+
+    private decimal CarTotalOne => MonthlyPaymentOne + InsuranceCostOne;
+    private decimal CarTotalTwo => MonthlyPaymentTwo + InsuranceCostTwo;
+    private decimal CarTotalThree => MonthlyPaymentThree + InsuranceCostThree;
+
+    private decimal MonthlyPaymentOne;
+    private decimal InsuranceCostOne;
+    private decimal MonthlyPaymentTwo;
+    private decimal InsuranceCostTwo;
+    private decimal MonthlyPaymentThree;
+    private decimal InsuranceCostThree;
+
+
+    private void ToggleCarOne()
+    {
+        carOneOpen = !carOneOpen;
+    }
+    private void ToggleCarTwo()
+    {
+        carTwoOpen = !carTwoOpen;
+    }
+    private void ToggleCarThree()
+    {
+        carThreeOpen = !carThreeOpen;
+    }
+    #endregion Car
+
+
+    #region Loan
+
+    #endregion Loan
+
+
+    #region Subscriptions
+    private bool isSubOpen = false;
+
+    private decimal totalSubs => streamingSubscriptions + gymMemberships + musicSubscriptions + shoppingSubscriptions + tvSubscriptions + otherSubscriptions;
+    private decimal streamingSubscriptions;
+    private decimal gymMemberships;
+    private decimal musicSubscriptions;
+    private decimal shoppingSubscriptions;
+    private decimal tvSubscriptions;
+    private decimal otherSubscriptions;
+
+    private void ToggleSubscriptions() 
+    {
+        isSubOpen = !isSubOpen;
+    }
+
+    #endregion Subscriptions
+
+
+    #region Other
+    private bool otherOpen = false;
+    private decimal totalOther => otherOne + otherTwo + otherThree + otherFour + otherFive;
+    private decimal otherOne;
+    private decimal otherTwo;
+    private decimal otherThree;
+    private decimal otherFour;
+    private decimal otherFive;
+
+    private void ToggleOther()
+    {
+        otherOpen = !otherOpen;
+    }
+    #endregion Other
+
+    private decimal grandTotal;
+    private decimal remaining;
+}
