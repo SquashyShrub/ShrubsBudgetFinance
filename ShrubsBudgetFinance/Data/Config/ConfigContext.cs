@@ -13,6 +13,8 @@ namespace ShrubsBudgetFinance.Data
 		public DbSet<Config>? Configs { get; set; }
 		public DbSet<IncomeBreakdown>? IncomeBreakdowns { get; set; }
 		public DbSet<AccountNames>? AccountNamess { get; set; }
+		public DbSet<AssetName>? AssetNames { get; set; }
+		public DbSet<LiabilityName>? LiabilityNames { get; set; }
 
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -48,6 +50,28 @@ namespace ShrubsBudgetFinance.Data
 				new AccountNames { rowId = 4, Type = "Savings Account #2", Nickname = "Annual Budget", ConfigId = 2 },
 				new AccountNames { rowId = 5, Type = "Savings Account #3", Nickname = "Other Bank(s) Total", ConfigId = 2 },
 				new AccountNames { rowId = 6, Type = "Savings Account #4", Nickname = "Emergency Fund", ConfigId = 2 }
+				);
+
+			modelBuilder.Entity<AssetName>().HasData(
+				new AssetName { rowId = 1, Type = "Passive Investment Contribution", Nickname = "My 401k", ConfigId = 3 },
+				new AssetName { rowId = 2, Type = "Active Investment Contribution", Nickname = "Roth IRA", ConfigId = 3 },
+				new AssetName { rowId = 3, Type = "Other Investment #1", Nickname = "Crypto", ConfigId = 3 },
+				new AssetName { rowId = 4, Type = "Other Investment #2", Nickname = "Charles Schwabb", ConfigId = 3 },
+				new AssetName { rowId = 5, Type = "Other Income #1", Nickname = "Rental Property Income", ConfigId = 3 },
+				new AssetName { rowId = 6, Type = "Other Income #2", Nickname = "Dividends", ConfigId = 3 }
+				);
+
+			modelBuilder.Entity<LiabilityName>().HasData(
+				new LiabilityName { rowId = 1, Type = "Rent/Mortgage", Nickname = "Home Mortgage", ConfigId = 4 },
+				new LiabilityName { rowId = 2, Type = "Vehicle Loan #1", Nickname = "Toyota Corolla", ConfigId = 4 },
+				new LiabilityName { rowId = 3, Type = "Vehicle Loan #2", Nickname = "", ConfigId = 4 },
+				new LiabilityName { rowId = 4, Type = "Vehicle Loan #3", Nickname = "", ConfigId = 4 },
+				new LiabilityName { rowId = 5, Type = "Loan/Debt #1", Nickname = "Student Loans", ConfigId = 4 },
+				new LiabilityName { rowId = 6, Type = "Loan/Debt #2", Nickname = "Angel Load", ConfigId = 4 },
+				new LiabilityName { rowId = 7, Type = "Loan/Debt #3", Nickname = "", ConfigId = 4 },
+				new LiabilityName { rowId = 8, Type = "Credit Card #1", Nickname = "Discover Card", ConfigId = 4 },
+				new LiabilityName { rowId = 9, Type = "Credit Card #2", Nickname = "Chase Card", ConfigId = 4 },
+				new LiabilityName { rowId = 10, Type = "Credit Card #3", Nickname = "Capital One Card", ConfigId = 4 }
 				);
 
 			//modelBuilder.Entity<IncomeBreakdown>(entity =>

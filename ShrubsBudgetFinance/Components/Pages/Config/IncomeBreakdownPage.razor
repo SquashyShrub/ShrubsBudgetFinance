@@ -4,6 +4,7 @@
 @using ShrubsBudgetFinance.Models
 @using ShrubsBudgetFinance.Services
 @using ShrubsBudgetFinance.Data
+@using ShrubsBudgetFinance.Controllers
 
 @inject IncomeBreakdownService incomes
 
@@ -109,7 +110,7 @@
 
 @code {
     static ConfigContext config = new ConfigContext();
-    static IncomeService configService = new IncomeService(config);
+    static IncomeController configService = new IncomeController(config);
 
     //Variables
     private decimal grossMonthly;

@@ -4,6 +4,7 @@
 @using ShrubsBudgetFinance.Data
 @using ShrubsBudgetFinance.Models
 @using ShrubsBudgetFinance.Services
+@using ShrubsBudgetFinance.Controllers
 
 @* @layout NavigationLayout *@
 
@@ -93,7 +94,7 @@
 
 @code {
     static ConfigContext config = new ConfigContext();
-    static AccountService configService = new AccountService(config);
+    static AccountController configService = new AccountController(config);
 
     //Variables
     private string? checkingAccount;

@@ -5,13 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using ShrubsBudgetFinance.Models;
 using ShrubsBudgetFinance.Data;
+using ShrubsBudgetFinance.Services;
 
-namespace ShrubsBudgetFinance.Services
+namespace ShrubsBudgetFinance.Controllers
 {
-	public class IncomeService : IConfigService<IncomeBreakdown>
+	public class IncomeController : IConfigService<IncomeBreakdown>
 	{
 		private ConfigContext _context;
-		public IncomeService(ConfigContext context)
+		public IncomeController(ConfigContext context)
 		{
 			_context = context;
 		}

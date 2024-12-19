@@ -9,6 +9,7 @@ namespace ShrubsBudgetFinance.Models
 		public int TableId { get; set; }
 		public string? TableName { get; set; }
 
-		public virtual ObservableCollectionListSource<IncomeBreakdown>? IncomeBreakdowns { get; set; }
+		//public virtual ObservableCollectionListSource<IncomeBreakdown>? IncomeBreakdowns { get; set; }
+		//public virtual ObservableCollectionListSource<AccountNames>? AccountNamess { get; set; }
 	}
 }

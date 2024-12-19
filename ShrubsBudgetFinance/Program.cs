@@ -9,10 +9,11 @@ using ShrubsBudgetFinance.Components.Account;
 using ShrubsBudgetFinance.Data;
 using ShrubsBudgetFinance.Models;
 using ShrubsBudgetFinance.Services;
+using ShrubsBudgetFinance.Controllers;
 
 namespace ShrubsBudgetFinance
 {
-    public class Program
+	public class Program
     {
         public static void Main(string[] args)
         {
@@ -33,15 +34,17 @@ namespace ShrubsBudgetFinance
             //Server Connection
             builder.Services.AddScoped(http => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetSection("BaseUri").Value!) });
             builder.Services.AddDbContext<ConfigContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("ConfigConnection")));
-            //Controller Connection
-            builder.Services.AddControllers();
-            builder.Services.AddScoped<IncomeBreakdownService>();
+			//Register Config services
+			builder.Services.AddScoped<IncomeBreakdownService>();
             builder.Services.AddScoped<AccountNamesService>();
+            builder.Services.AddScoped<AssetNameService>();
 			//Syncfusion
 			builder.Services.AddSyncfusionBlazor();
-			//Register Config services
-			builder.Services.AddScoped<IConfigService<IncomeBreakdown>, IncomeService>();
-            builder.Services.AddScoped<IConfigService<AccountNames>, AccountService>();
+			//Controller Connection
+			builder.Services.AddControllers();
+			builder.Services.AddScoped<IConfigService<IncomeBreakdown>, IncomeController>();
+            builder.Services.AddScoped<IConfigService<AccountNames>, AccountController>();
+            builder.Services.AddScoped<IConfigService<AssetName>, AssetController>();
 			///END OF ADDED SERVICES
 
 			builder.Services.AddAuthentication(options =>
@@ -96,6 +99,7 @@ namespace ShrubsBudgetFinance
             Data.Data.dataConfigContext.Set<Config>().Load();
             Data.Data.dataConfigContext.Set<IncomeBreakdown>().Load();
             Data.Data.dataConfigContext.Set<AccountNames>().Load();
+            Data.Data.dataConfigContext.Set<AssetName>().Load();
 
 			// Add additional endpoints required by the Identity /Account Razor components.
 			app.MapAdditionalIdentityEndpoints();

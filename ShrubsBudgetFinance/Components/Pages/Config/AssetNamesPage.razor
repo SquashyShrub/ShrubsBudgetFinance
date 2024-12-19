@@ -1,0 +1,133 @@
+﻿@page "/config/assetnames"
+
+@using ShrubsBudgetFinance.Models
+@using ShrubsBudgetFinance.Services
+@using ShrubsBudgetFinance.Data
+@using ShrubsBudgetFinance.Controllers
+
+@inject AssetNameService assets
+
+@* @layout NavigationLayout *@
+
+<head>
+    <title>Asset Names</title>
+    <style>
+        body {
+        font-family: Consolas;
+        margin: 10px;
+        }
+
+        table {
+        width: 50%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        }
+
+        td {
+        border: 1px solid grey;
+        padding-left: 10px;
+        padding-right: 10px;
+        }
+
+        th {
+        background-color: lightgrey;
+        font-size: 24px;
+        padding: 10px;
+        border: 1px solid grey;
+        text-align: center;
+        }
+
+        input {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        width: 100%;
+        padding: 2px;
+        box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Asset Names</h1>
+    <p>Enter your various Asset names below</p>
+
+    <table id="assetTable">
+        <thead>
+            <tr>
+                <th>Asset Type</th>
+                <th>Nickname</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Passive Investment Contribution</td>
+                <td><input type="text" id="passiveInvestText" @bind-value="passiveContr" @bind-value:event="oninput" placeholder="i.e. My 401k" /></td>
+            </tr>
+            <tr>
+                <td>Active Investment Contribution</td>
+                <td><input type="text" id="activeInvestText" @bind-value="activeContr" @bind-value:event="oninput" placeholder="i.e. Crypto Investment" /></td>
+            </tr>
+            <tr>
+                <td>Other Investment #1</td>
+                <td><input type="text" id="investOneText" @bind-value="investOne" @bind-value:event="oninput" placeholder="i.e Fidelity" /></td>
+            </tr>
+            <tr>
+                <td>Other Investment #2</td>
+                <td><input type="text" id="investTwoText" @bind-value="investTwo" @bind-value:event="oninput" placeholder="i.e Amazon Stock" /></td>
+            </tr>
+            <tr>
+                <td>Other Income #1</td>
+                <td><input type="text" id="incomeOneText" @bind-value="incomeOne" @bind-value:event="oninput" placeholder="i.e Dividends" /></td>
+            </tr>
+            <tr>
+                <td>Other Income #2</td>
+                <td><input type="text" id="savingsFourText" @bind-value="incomeTwo" @bind-value:event="oninput" placeholder="i.e. Rental Property Income" /></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="btn btn-primary" @onclick="SaveData" >Save Asset Names</div>
+
+</body>
+
+@code {
+
+    static ConfigContext config = new ConfigContext();
+    static AssetController controller = new AssetController(config);
+
+    //Variables
+    private string passiveContr;
+    private string activeContr;
+    private string investOne;
+    private string investTwo;
+    private string incomeOne;
+    private string incomeTwo;
+
+
+    private void SaveData() 
+    {
+        var AssetNameToUpdate = controller.FindOne(1);
+        AssetNameToUpdate.Nickname = passiveContr;
+        assets.UpdateAsset(1, AssetNameToUpdate);
+
+        AssetNameToUpdate = controller.FindOne(2);
+        AssetNameToUpdate.Nickname = activeContr;
+		assets.UpdateAsset(2, AssetNameToUpdate);
+
+		AssetNameToUpdate = controller.FindOne(3);
+		AssetNameToUpdate.Nickname = investOne;
+        assets.UpdateAsset(3, AssetNameToUpdate);
+
+        AssetNameToUpdate = controller.FindOne(4);
+        AssetNameToUpdate.Nickname = investTwo;
+		assets.UpdateAsset(4, AssetNameToUpdate);
+
+        AssetNameToUpdate = controller.FindOne(5);
+        AssetNameToUpdate.Nickname = incomeOne;
+		assets.UpdateAsset(5, AssetNameToUpdate);
+
+        AssetNameToUpdate = controller.FindOne(6);
+        AssetNameToUpdate.Nickname = incomeTwo;
+		assets.UpdateAsset(6, AssetNameToUpdate);
+
+    }
+}

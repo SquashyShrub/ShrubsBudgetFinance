@@ -15,7 +15,9 @@ else
     <table class="table">
         <thead>
             <tr class="link-danger" @onclick="GoToIncomeBreakdown">Go To Income Breakdown</tr>
+            <tr class="link-danger" @onclick="GoToAccountNames">Go To Account Names</tr>
             <tr class="link-danger" @onclick="GoToAssetNames">Go To Asset Names</tr>
+            <tr class="link-danger" @onclick="GoToLiabilityNames">Go To Liability Names</tr>
         </thead>
         <tbody>
             
@@ -53,8 +55,16 @@ else
 	{
 		NavigationManager.NavigateTo("/config/incomebreakdown");
 	}
-    private void GoToAssetNames()
+    private void GoToAccountNames()
     {
         NavigationManager.NavigateTo("/config/accountnames");
+    }
+    private void GoToAssetNames()
+    {
+        NavigationManager.NavigateTo("/config/assetnames");
+    }
+    private void GoToLiabilityNames()
+    {
+        NavigationManager.NavigateTo("/config/liabilitynames");
     }
 }
