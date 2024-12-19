@@ -18,6 +18,7 @@ else
             <tr class="link-danger" @onclick="GoToAccountNames">Go To Account Names</tr>
             <tr class="link-danger" @onclick="GoToAssetNames">Go To Asset Names</tr>
             <tr class="link-danger" @onclick="GoToLiabilityNames">Go To Liability Names</tr>
+            <tr class="link-danger" @onclick="GoToFixedMonthlyCosts">Go To Fixed Monthly Costs Names</tr>
         </thead>
         <tbody>
             
@@ -66,5 +67,9 @@ else
     private void GoToLiabilityNames()
     {
         NavigationManager.NavigateTo("/config/liabilitynames");
+    }
+    private void GoToFixedMonthlyCosts()
+    {
+        NavigationManager.NavigateTo("/config/monthlyexpenses");
     }
 }

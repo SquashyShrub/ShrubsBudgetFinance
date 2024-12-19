@@ -6,7 +6,7 @@ namespace ShrubsBudgetFinance.Models
 	{
 		[Key]
 		public int rowId { get; set; }
-		public string? ExpenseName { get; set; }
+		public string? BudgetCategory { get; set; }
 		public decimal Amount { get; set; }
 		public double Percentage { get; set; }
 		public int configId { get; set; }

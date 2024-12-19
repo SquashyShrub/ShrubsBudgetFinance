@@ -75,6 +75,57 @@ namespace ShrubsBudgetFinance.Data
 				new LiabilityName { rowId = 10, Type = "Credit Card #3", Nickname = "Capital One Card", ConfigId = 4 }
 				);
 
+			modelBuilder.Entity<MonthlyFixedExpenses>().HasData(
+				new MonthlyFixedExpenses { rowId = 1, BudgetCategory = "Annual Budget", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 2, BudgetCategory = "Active Investment Contribution", Amount = 0, Percentage = 0, configId = 6 },
+
+				//Housing
+				new MonthlyFixedExpenses { rowId = 3, BudgetCategory = "Housing", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 4, BudgetCategory = "Rent/Mortgage", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 5, BudgetCategory = "Renters/Home Insurance", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 6, BudgetCategory = "HOA Fees", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 7, BudgetCategory = "Electric", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 8, BudgetCategory = "Gas", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 9, BudgetCategory = "Water", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 10, BudgetCategory = "Waste", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 11, BudgetCategory = "Internet & Phone Bill", Amount = 0, Percentage = 0, configId = 6 },
+
+				//Vehicles
+				new MonthlyFixedExpenses { rowId = 12, BudgetCategory = "Vehicle #1", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 13, BudgetCategory = "Monthly Payment", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 14, BudgetCategory = "Insurance", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 15, BudgetCategory = "Vehicle #2", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 16, BudgetCategory = "Monthly Payment", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 17, BudgetCategory = "Insurance", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 18, BudgetCategory = "Vehicle #3", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 19, BudgetCategory = "Monthly Payment", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 20, BudgetCategory = "Insurance", Amount = 0, Percentage = 0, configId = 6 },
+
+				//Loans/Debts
+				new MonthlyFixedExpenses { rowId = 21, BudgetCategory = "Loan/Debt #1", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 22, BudgetCategory = "Loan/Debt #2", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 23, BudgetCategory = "Loan/Debt #3", Amount = 0, Percentage = 0, configId = 6 },
+
+				//Subscriptions
+				new MonthlyFixedExpenses { rowId = 24, BudgetCategory = "Streaming Subscriptions", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 25, BudgetCategory = "Gym Membership", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 26, BudgetCategory = "Music Subscriptions", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 27, BudgetCategory = "Shopping Subscriptions", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 28, BudgetCategory = "TV Subscriptions", Amount = 0, Percentage = 0, configId = 6 },	
+				new MonthlyFixedExpenses { rowId = 29, BudgetCategory = "Other Subscriptions", Amount = 0, Percentage = 0, configId = 6 },
+
+				//Contributions
+				new MonthlyFixedExpenses { rowId = 30, BudgetCategory = "Billing Account Contribution", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 31, BudgetCategory = "Savings Contribution", Amount = 0, Percentage = 0, configId = 6 },
+
+				//Other
+				new MonthlyFixedExpenses { rowId = 32, BudgetCategory = "Other #1", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 33, BudgetCategory = "Other #2", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 34, BudgetCategory = "Other #3", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 35, BudgetCategory = "Other #4", Amount = 0, Percentage = 0, configId = 6 },
+				new MonthlyFixedExpenses { rowId = 36, BudgetCategory = "Other #5", Amount = 0, Percentage = 0, configId = 6 }
+				);
+
 			//modelBuilder.Entity<IncomeBreakdown>(entity =>
 			//{
 			//	entity.ToTable("IncomeBreakdown");

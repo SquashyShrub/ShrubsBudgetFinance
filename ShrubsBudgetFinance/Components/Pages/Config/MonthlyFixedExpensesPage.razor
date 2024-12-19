@@ -1,6 +1,13 @@
-﻿@page "/config/monthlyexpenses"
-@layout NavigationLayout
+﻿@using ShrubsBudgetFinance.Services
+@using ShrubsBudgetFinance.Models
+@using ShrubsBudgetFinance.Data
+@using ShrubsBudgetFinance.Controllers
 
+@page "/config/monthlyexpenses"
+
+@inject FixedMonthlyCostsService fixedCosts
+
+@* @layout NavigationLayout*@
 <head>
     <title>Fixed Expenses</title>
     <style>
@@ -61,7 +68,7 @@
             @* Active Investment Monthly Contribution *@
             <tr>
                 <td>Active Investment Monthly Contribution</td>
-                <td><input type="number" /></td>
+                <td><input type="number" @bind="activeContribution" /></td>
                 <td>total amount/net total income</td>
             </tr>
 
@@ -130,17 +137,17 @@
             @*Loan Repayments*@
             <tr>
                 <td>Loan/Debt #1</td>
-                <td><input type="number" /></td>
+                <td><input type="number" @bind="debtOne"/></td>
                 <td>total amount/net total income</td>
             </tr>
             <tr>
                 <td>Loan/Debt #2</td>
-                <td><input type="number" /></td>
+                <td><input type="number" @bind="debtTwo"/></td>
                 <td>total amount/net total income</td>
             </tr>
             <tr>
                 <td>Loan/Debt #3</td>
-                <td><input type="number" /></td>
+                <td><input type="number" @bind="debtThree"/></td>
                 <td>total amount/net total income</td>
             </tr>
 
@@ -166,14 +173,14 @@
             @* Billing Account Extra Contribution (Acts as emergency savings) *@
             <tr>
                 <td>Billing Account Monthly Contribution</td>
-                <td><input type="number" /></td>
+                <td><input type="number" @bind="billingAccountContribution"/></td>
                 <td>total amount/net total income</td>
             </tr>
 
             @* Savings Contribution *@
             <tr>
                 <td>Savings Monthly Contribution</td>
-                <td><input type="number" /></td>
+                <td><input type="number" @bind="savingsContribution"/></td>
                 <td>total amount/net total income</td>
             </tr>
 
@@ -198,25 +205,28 @@
             @* Total *@
             <tr>
                 <td>Amount Left for Monthly Budget: </td>
-                <td class="fst-italic">Placeholder</td>
-                <td>100%? - make dynamic</td>
+                <td class="fst-italic">@remaining</td>
+                <td>@thePercentage</td>
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-primary">Save Monthly Expenses</button>
+    <button class="btn btn-primary" @onclick="SaveData">Save Data</button>
 </body>
 
 
 @code {
+    //Variables
+    static ConfigContext config = new ConfigContext();
+    static FixedCostController fixedCostController = new FixedCostController(config);
+
     #region Annual Budget
 
     #endregion Annual Budget
 
-
     #region Active Investment Contr
-
+    private decimal activeContribution;
+    private decimal activeContributionPercent;
     #endregion Active investment Contr
-
 
     #region Housing
     private bool livingOpen = false;
@@ -236,15 +246,17 @@
     }
     #endregion Housing
 
-
     #region Car
     private bool carOneOpen = false;
     private bool carTwoOpen = false;
     private bool carThreeOpen = false;
 
     private decimal CarTotalOne => MonthlyPaymentOne + InsuranceCostOne;
+    private decimal CatTotalOnePercent;
     private decimal CarTotalTwo => MonthlyPaymentTwo + InsuranceCostTwo;
+    private decimal CarTotalTwoPercent;
     private decimal CarTotalThree => MonthlyPaymentThree + InsuranceCostThree;
+    private decimal CarTotalThreePercent;
 
     private decimal MonthlyPaymentOne;
     private decimal InsuranceCostOne;
@@ -252,7 +264,6 @@
     private decimal InsuranceCostTwo;
     private decimal MonthlyPaymentThree;
     private decimal InsuranceCostThree;
-
 
     private void ToggleCarOne()
     {
@@ -268,16 +279,20 @@
     }
     #endregion Car
 
-
     #region Loan
-
+    private decimal debtOne;
+    private decimal debtOnePercent;
+    private decimal debtTwo;
+    private decimal debtTwoPercent;
+    private decimal debtThree;
+    private decimal debtThreePercent;
     #endregion Loan
-
 
     #region Subscriptions
     private bool isSubOpen = false;
 
     private decimal totalSubs => streamingSubscriptions + gymMemberships + musicSubscriptions + shoppingSubscriptions + tvSubscriptions + otherSubscriptions;
+    private decimal totalSubsPercent;
     private decimal streamingSubscriptions;
     private decimal gymMemberships;
     private decimal musicSubscriptions;
@@ -292,10 +307,15 @@
 
     #endregion Subscriptions
 
+    private decimal billingAccountContribution;
+    private decimal billingAccountContributionPercent;
+    private decimal savingsContribution;
+    private decimal savingsContributionPercent;
 
     #region Other
     private bool otherOpen = false;
     private decimal totalOther => otherOne + otherTwo + otherThree + otherFour + otherFive;
+    private decimal totalOtherPercent;
     private decimal otherOne;
     private decimal otherTwo;
     private decimal otherThree;
@@ -308,6 +328,151 @@
     }
     #endregion Other
 
-    private decimal grandTotal;
-    private decimal remaining;
+    private decimal grandTotal => activeContribution + totalHousing + CarTotalOne + CarTotalTwo + CarTotalThree + debtOne + debtTwo + debtThree + totalSubs + billingAccountContribution + savingsContribution + totalOther;
+    private decimal remaining; //net income total - grand total
+    private decimal thePercentage;
+
+    private void SaveData()
+    {
+        var fixedCostToUpdate = fixedCostController.FindOne(2);
+        fixedCostToUpdate.Amount = activeContribution;
+        fixedCosts.UpdateFixedCost(2, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(3);
+        fixedCostToUpdate.Amount = totalHousing;
+        fixedCosts.UpdateFixedCost(3, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(4);
+        fixedCostToUpdate.Amount = mortRent;
+        fixedCosts.UpdateFixedCost(4, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(5);
+        fixedCostToUpdate.Amount = homeInsurance;
+        fixedCosts.UpdateFixedCost(5, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(6);
+        fixedCostToUpdate.Amount = hoaFees;
+        fixedCosts.UpdateFixedCost(6, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(7);
+        fixedCostToUpdate.Amount = electricity;
+        fixedCosts.UpdateFixedCost(7, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(8);
+        fixedCostToUpdate.Amount = gas;
+        fixedCosts.UpdateFixedCost(8, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(9);
+        fixedCostToUpdate.Amount = water;
+        fixedCosts.UpdateFixedCost(9, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(10);
+        fixedCostToUpdate.Amount = wasteRemoval;
+        fixedCosts.UpdateFixedCost(10, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(11);
+        fixedCostToUpdate.Amount = phoneBill;
+        fixedCosts.UpdateFixedCost(11, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(12);
+        fixedCostToUpdate.Amount =CarTotalOne;
+        fixedCosts.UpdateFixedCost(12, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(13);
+        fixedCostToUpdate.Amount = MonthlyPaymentOne;
+        fixedCosts.UpdateFixedCost(13, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(14);
+        fixedCostToUpdate.Amount = InsuranceCostOne;
+        fixedCosts.UpdateFixedCost(14, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(15);
+        fixedCostToUpdate.Amount = CarTotalTwo;
+        fixedCosts.UpdateFixedCost(15, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(16);
+        fixedCostToUpdate.Amount = MonthlyPaymentTwo;
+        fixedCosts.UpdateFixedCost(16, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(17);
+        fixedCostToUpdate.Amount = InsuranceCostTwo;
+        fixedCosts.UpdateFixedCost(17, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(18);
+        fixedCostToUpdate.Amount = CarTotalThree;
+        fixedCosts.UpdateFixedCost(18, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(19);
+        fixedCostToUpdate.Amount = MonthlyPaymentThree;
+        fixedCosts.UpdateFixedCost(19, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(20);
+        fixedCostToUpdate.Amount = InsuranceCostThree;
+        fixedCosts.UpdateFixedCost(20, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(21);
+        fixedCostToUpdate.Amount = debtOne;
+        fixedCosts.UpdateFixedCost(21, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(22);
+        fixedCostToUpdate.Amount = debtTwo;
+        fixedCosts.UpdateFixedCost(22, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(23);
+        fixedCostToUpdate.Amount = debtThree;
+        fixedCosts.UpdateFixedCost(23, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(24);
+        fixedCostToUpdate.Amount = streamingSubscriptions;
+        fixedCosts.UpdateFixedCost(24, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(25);
+        fixedCostToUpdate.Amount = gymMemberships;
+        fixedCosts.UpdateFixedCost(25, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(26);
+        fixedCostToUpdate.Amount = musicSubscriptions;
+        fixedCosts.UpdateFixedCost(26, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(27);
+		fixedCostToUpdate.Amount = shoppingSubscriptions;
+        fixedCosts.UpdateFixedCost(27, fixedCostToUpdate);
+
+        fixedCostToUpdate = fixedCostController.FindOne(28);
+        fixedCostToUpdate.Amount = tvSubscriptions;
+		fixedCosts.UpdateFixedCost(28, fixedCostToUpdate);
+
+		fixedCostToUpdate = fixedCostController.FindOne(29);
+		fixedCostToUpdate.Amount = otherSubscriptions;
+		fixedCosts.UpdateFixedCost(29, fixedCostToUpdate);
+
+		fixedCostToUpdate = fixedCostController.FindOne(30);
+		fixedCostToUpdate.Amount = billingAccountContribution;
+		fixedCosts.UpdateFixedCost(30, fixedCostToUpdate);
+
+		fixedCostToUpdate = fixedCostController.FindOne(31);
+		fixedCostToUpdate.Amount = savingsContribution;
+		fixedCosts.UpdateFixedCost(31, fixedCostToUpdate);
+
+		fixedCostToUpdate = fixedCostController.FindOne(32);
+		fixedCostToUpdate.Amount = otherOne;
+
+		fixedCosts.UpdateFixedCost(32, fixedCostToUpdate);
+		fixedCostToUpdate = fixedCostController.FindOne(33);
+		fixedCostToUpdate.Amount = otherTwo;
+
+		fixedCosts.UpdateFixedCost(33, fixedCostToUpdate);
+		fixedCostToUpdate = fixedCostController.FindOne(34);
+		fixedCostToUpdate.Amount = otherThree;
+
+		fixedCosts.UpdateFixedCost(34, fixedCostToUpdate);
+		fixedCostToUpdate = fixedCostController.FindOne(35);
+		fixedCostToUpdate.Amount = otherFour;
+		fixedCosts.UpdateFixedCost(35, fixedCostToUpdate);
+
+		fixedCostToUpdate = fixedCostController.FindOne(36);
+		fixedCostToUpdate.Amount = otherFive;
+		fixedCosts.UpdateFixedCost(36, fixedCostToUpdate);
+
+    }
 }

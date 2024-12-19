@@ -39,6 +39,7 @@ namespace ShrubsBudgetFinance
             builder.Services.AddScoped<AccountNamesService>();
             builder.Services.AddScoped<AssetNameService>();
             builder.Services.AddScoped<LiabilityNameService>();
+			builder.Services.AddScoped<FixedMonthlyCostsService>();
 			//Syncfusion
 			builder.Services.AddSyncfusionBlazor();
 			//Controller Connection
@@ -47,6 +48,7 @@ namespace ShrubsBudgetFinance
             builder.Services.AddScoped<IConfigService<AccountNames>, AccountController>();
             builder.Services.AddScoped<IConfigService<AssetName>, AssetController>();
             builder.Services.AddScoped<IConfigService<LiabilityName>, LiabilityController>();
+            builder.Services.AddScoped<IConfigService<MonthlyFixedExpenses>, FixedCostController>();
 			///END OF ADDED SERVICES
 
 			builder.Services.AddAuthentication(options =>
@@ -96,12 +98,13 @@ namespace ShrubsBudgetFinance
             //Database and Table Creation
             Data.Data.dataConfigContext = new ConfigContext();
 
-            Data.Data.dataConfigContext.Database.EnsureDeleted();
+            //Data.Data.dataConfigContext.Database.EnsureDeleted();
 			Data.Data.dataConfigContext.Database.EnsureCreated();
             Data.Data.dataConfigContext.Set<Config>().Load();
             Data.Data.dataConfigContext.Set<IncomeBreakdown>().Load();
             Data.Data.dataConfigContext.Set<AccountNames>().Load();
             Data.Data.dataConfigContext.Set<AssetName>().Load();
+            Data.Data.dataConfigContext.Set<LiabilityName>().Load();
 
 			// Add additional endpoints required by the Identity /Account Razor components.
 			app.MapAdditionalIdentityEndpoints();
