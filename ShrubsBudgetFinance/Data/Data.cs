@@ -2,6 +2,6 @@
 {
 	public static class Data
 	{
-		public static ConfigContext? incomeContext { get; set; }
+		public static ConfigContext? dataConfigContext { get; set; }
 	}
 }

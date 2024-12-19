@@ -5,11 +5,15 @@ namespace ShrubsBudgetFinance.Data
 {
 	public class ConfigContext : DbContext
 	{
+		//Constructors
 		public ConfigContext() { }
 		public ConfigContext(DbContextOptions<ConfigContext> options) : base(options) { }
 
+		//DbSets
 		public DbSet<Config>? Configs { get; set; }
 		public DbSet<IncomeBreakdown>? IncomeBreakdowns { get; set; }
+		public DbSet<AccountNames>? AccountNamess { get; set; }
+
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
@@ -35,6 +39,15 @@ namespace ShrubsBudgetFinance.Data
 				new IncomeBreakdown { rowId = 4, rowName = "Average Extra Income", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
 				new IncomeBreakdown { rowId = 5, rowName = "Total Gross Income", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 },
 				new IncomeBreakdown { rowId = 6, rowName = "Net Total Income", monthlyValue = 0, yearlyValue = 0, ConfigId = 1 }
+				);
+
+			modelBuilder.Entity<AccountNames>().HasData(
+				new AccountNames { rowId = 1, Type = "Checking Account", Nickname = "Monthly Budget", ConfigId = 2 },
+				new AccountNames { rowId = 2, Type = "Billing Account", Nickname = "Spending Needs", ConfigId = 2 },
+				new AccountNames { rowId = 3, Type = "Savings Account #1", Nickname = "Savings", ConfigId = 2 },
+				new AccountNames { rowId = 4, Type = "Savings Account #2", Nickname = "Annual Budget", ConfigId = 2 },
+				new AccountNames { rowId = 5, Type = "Savings Account #3", Nickname = "Other Bank(s) Total", ConfigId = 2 },
+				new AccountNames { rowId = 6, Type = "Savings Account #4", Nickname = "Emergency Fund", ConfigId = 2 }
 				);
 
 			//modelBuilder.Entity<IncomeBreakdown>(entity =>

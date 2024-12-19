@@ -18,7 +18,7 @@ namespace ShrubsBudgetFinance
         {
 			Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NMaF5cXmBCf0x3Q3xbf1x1ZFFMYVhbRnNPIiBoS35RckRhWHhfdnVRRGdfUkNx");
 			var builder = WebApplication.CreateBuilder(args);
-            var incomeContext = new ConfigContext();
+            var dataConfigContext = new ConfigContext();
 
 			// Add services to the container.
 			builder.Services.AddRazorComponents()
@@ -36,10 +36,12 @@ namespace ShrubsBudgetFinance
             //Controller Connection
             builder.Services.AddControllers();
             builder.Services.AddScoped<IncomeBreakdownService>();
+            builder.Services.AddScoped<AccountNamesService>();
 			//Syncfusion
 			builder.Services.AddSyncfusionBlazor();
 			//Register Config services
-			builder.Services.AddScoped<IConfigService<IncomeBreakdown>, ConfigService>();
+			builder.Services.AddScoped<IConfigService<IncomeBreakdown>, IncomeService>();
+            builder.Services.AddScoped<IConfigService<AccountNames>, AccountService>();
 			///END OF ADDED SERVICES
 
 			builder.Services.AddAuthentication(options =>
@@ -87,12 +89,13 @@ namespace ShrubsBudgetFinance
                 .AddInteractiveServerRenderMode();
 
             //Database and Table Creation
-            Data.Data.incomeContext = new ConfigContext();
+            Data.Data.dataConfigContext = new ConfigContext();
 
-            Data.Data.incomeContext.Database.EnsureDeleted();
-			Data.Data.incomeContext.Database.EnsureCreated();
-            Data.Data.incomeContext.Set<Config>().Load();
-            Data.Data.incomeContext.Set<IncomeBreakdown>().Load();
+            //Data.Data.dataConfigContext.Database.EnsureDeleted();
+			Data.Data.dataConfigContext.Database.EnsureCreated();
+            Data.Data.dataConfigContext.Set<Config>().Load();
+            Data.Data.dataConfigContext.Set<IncomeBreakdown>().Load();
+            Data.Data.dataConfigContext.Set<AccountNames>().Load();
 
 			// Add additional endpoints required by the Identity /Account Razor components.
 			app.MapAdditionalIdentityEndpoints();

@@ -8,10 +8,10 @@ using ShrubsBudgetFinance.Data;
 
 namespace ShrubsBudgetFinance.Services
 {
-	public class ConfigService : IConfigService<IncomeBreakdown>
+	public class IncomeService : IConfigService<IncomeBreakdown>
 	{
 		private ConfigContext _context;
-		public ConfigService(ConfigContext context)
+		public IncomeService(ConfigContext context)
 		{
 			_context = context;
 		}
@@ -78,4 +78,5 @@ namespace ShrubsBudgetFinance.Services
 			}
 		}
 	}
+
 }

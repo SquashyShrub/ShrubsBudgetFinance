@@ -5,14 +5,11 @@ namespace ShrubsBudgetFinance.Services
 	
 	public class IncomeBreakdownService
 	{
-		private HttpClient _httpClient;
-		private IConfigService<IncomeBreakdown> configService;
+		private IConfigService<IncomeBreakdown> incomeService;
 
-		public IncomeBreakdownService(HttpClient httpClient, IConfigService<IncomeBreakdown> config)
-		{
-			_httpClient = httpClient;
-			configService = config;
-
+		public IncomeBreakdownService(IConfigService<IncomeBreakdown> config)
+		{			
+			incomeService = config;
 		}
 
 		//GET (create)
@@ -20,23 +17,23 @@ namespace ShrubsBudgetFinance.Services
 		{
 			//var result = await _httpClient.GetFromJsonAsync<List<IncomeBreakdown>>("https://localhost:7014/api/DataGrid");
 			//return result;
-			var result = configService.Get();
+			var result = incomeService.Get();
 			return result.ToList();
 		}
 		//POST (read)
 		public async Task InsertIncome(IncomeBreakdown income)
 		{
-			configService.Insert(income);
+			incomeService.Insert(income);
 		}
 		//PUT (update)
 		public async Task UpdateIncome(int incomeId, IncomeBreakdown income)
 		{
-			configService.Update(incomeId, income);
+			incomeService.Update(incomeId, income);
 		}
 		//DELETE (delete)
 		public async Task DeleteIncome(int incomeId)
 		{
-			configService.Delete(incomeId);
+			incomeService.Delete(incomeId);
 		}
 	}
 }

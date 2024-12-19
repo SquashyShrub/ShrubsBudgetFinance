@@ -1,0 +1,134 @@
+﻿@page "/config/accountnames"
+
+@using ShrubsBudgetFinance.Components
+@using ShrubsBudgetFinance.Data
+@using ShrubsBudgetFinance.Models
+@using ShrubsBudgetFinance.Services
+
+@* @layout NavigationLayout *@
+
+@inject AccountNamesService accounts
+
+<head>
+    <title>Account Names</title>
+    <style>
+        body {
+        font-family: Consolas;
+        margin: 10px;
+        }
+
+        table {
+        width: 50%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        }
+
+        td {
+        border: 1px solid grey;
+        padding-left: 10px;
+        padding-right: 10px;
+        }
+
+        th {
+        background-color: lightgrey;
+        font-size: 24px;
+        padding: 10px;
+        border: 1px solid grey;
+        text-align: center;
+        }
+
+        input {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        width: 100%;
+        padding: 2px;
+        box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Account Names</h1>
+    <p>Enter your different account names below</p>
+
+    <table id="accountNameTable">
+        <thead>
+            <tr>
+                <th>Account Type</th>
+                <th>Nickname</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Main Checking Account</td>
+                <td><input type="text" id="mainCheckingText" @bind-value="checkingAccount" @bind-value:event="oninput" placeholder="i.e. Monthly Budget" /></td>
+            </tr>
+            <tr>
+                <td>Main Billing Account</td>
+                <td><input type="text" id="mainBillingText" @bind-value="billingAccount" @bind-value:event="oninput" placeholder="i.e. Spending Needs" /></td>
+            </tr>
+            <tr>
+                <td>Savings Account #1</td>
+                <td><input type="text" id="savingsOneText" @bind-value="savingsOne" @bind-value:event="oninput" placeholder="i.e Savings" /></td>
+            </tr>
+            <tr>
+                <td>Savings Account #2</td>
+                <td><input type="text" id="savingsTwoText" @bind-value="savingsTwo" @bind-value:event="oninput" placeholder="i.e Annual Budget" /></td>
+            </tr>
+            <tr>
+                <td>Savings Account #3</td>
+                <td><input type="text" id="savingsThreeText" @bind-value="savingsThree" @bind-value:event="oninput"placeholder="i.e Chase Bank Total" /></td>
+            </tr>
+            <tr>
+                <td>Savings Account #4</td>
+                <td><input type="text" id="savingsFourText" @bind-value="savingsFour" @bind-value:event="oninput" placeholder="i.e. CD" /></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex align-items-center">
+        <button class="btn btn-primary" @onclick=SaveData>Save Data</button>
+    </div>
+
+</body>
+
+@code {
+    static ConfigContext config = new ConfigContext();
+    static AccountService configService = new AccountService(config);
+
+    //Variables
+    private string? checkingAccount;
+    private string? billingAccount;
+    private string? savingsOne;
+    private string? savingsTwo;
+    private string? savingsThree;
+    private string? savingsFour;
+
+    private void SaveData()
+    {
+        var accountNameToUpdate = configService.FindOne(1);
+        accountNameToUpdate.Nickname = checkingAccount;
+		accounts.UpdateAccountName(1, accountNameToUpdate);
+
+        accountNameToUpdate = configService.FindOne(2);
+        accountNameToUpdate.Nickname = billingAccount;
+		accounts.UpdateAccountName(2, accountNameToUpdate);
+
+        accountNameToUpdate = configService.FindOne(3);
+        accountNameToUpdate.Nickname = savingsOne;
+		accounts.UpdateAccountName(3, accountNameToUpdate);
+        
+        accountNameToUpdate = configService.FindOne(4);
+        accountNameToUpdate.Nickname = savingsTwo;
+		accounts.UpdateAccountName(4, accountNameToUpdate);
+
+        accountNameToUpdate = configService.FindOne(5);
+        accountNameToUpdate.Nickname = savingsThree;
+		accounts.UpdateAccountName(5, accountNameToUpdate);
+
+        accountNameToUpdate = configService.FindOne(6);
+        accountNameToUpdate.Nickname = savingsFour;
+		accounts.UpdateAccountName(6, accountNameToUpdate);
+    }
+
+
+}
