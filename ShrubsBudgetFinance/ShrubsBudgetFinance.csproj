@@ -12,10 +12,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="28.1.33" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="28.1.33" />
   </ItemGroup>
 
 </Project>

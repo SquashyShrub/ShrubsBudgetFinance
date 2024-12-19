@@ -1,9 +1,7 @@
-﻿using ShrubsBudgetFinance.Data.Config;
-
-namespace ShrubsBudgetFinance.Data
+﻿namespace ShrubsBudgetFinance.Data
 {
 	public static class Data
 	{
-		public static IncomeBreakdownContext? incomeContext { get; set; }
+		public static ConfigContext? dataConfigContext { get; set; }
 	}
 }

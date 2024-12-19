@@ -1,40 +1,47 @@
 ﻿@page "/config/incomebreakdown"
 
+@using Syncfusion.Blazor.Data
+@using ShrubsBudgetFinance.Models
+@using ShrubsBudgetFinance.Services
+@using ShrubsBudgetFinance.Data
+@using ShrubsBudgetFinance.Controllers
+
+@inject IncomeBreakdownService incomes
+
 <head>
-    <component type="typeof(App)" render-mode="ServerPrerendered" />
     <title>Income Breakdown</title>
     <style>
         body {
-            font-family: Consolas;
-            margin: 10px;
+        font-family: Consolas;
+        margin: 10px;
         }
 
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 10px;
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
         }
 
         td {
-            border: 1px solid grey;
-            padding-left: 10px;
-            padding-right: 10px;
+        border: 1px solid grey;
+        padding-left: 10px;
+        padding-right: 10px;
         }
 
         th {
-            background-color: lightgrey;
-            font-size: 24px;
-            padding: 10px;
-            border: 1px solid grey;
-            text-align: center;
+        background-color: lightgrey;
+        font-size: 24px;
+        padding: 10px;
+        border: 1px solid grey;
+        text-align: center;
         }
 
         input {
-            margin-top: 4px;
-            margin-bottom: 4px;
-            width: 100%;
-            padding: 2px;
-            box-sizing: border-box;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        width: 100%;
+        padding: 2px;
+        box-sizing: border-box;
         }
     </style>
 </head>
@@ -95,11 +102,15 @@
             </tr>
         </tbody>
     </table>
+
     <div class="d-flex align-items-center">
-        <button class="btn btn-primary" @onclick="SaveData">Save Data</button>
+        <button class="btn btn-primary" @onclick=SaveData>Save Data</button>
     </div>
 </body>
+
 @code {
+    static ConfigContext config = new ConfigContext();
+    static IncomeController configService = new IncomeController(config);
 
     //Variables
     private decimal grossMonthly;
@@ -122,6 +133,35 @@
 
     private void SaveData() 
     {
+        var incomeToUpdate = configService.FindOne(1);
+        incomeToUpdate.monthlyValue = grossMonthly;
+        incomeToUpdate.yearlyValue = grossAnnual;
+        incomes.UpdateIncome(1, incomeToUpdate);
 
+		incomeToUpdate = configService.FindOne(2);
+		incomeToUpdate.monthlyValue = monthlyPassiveContribution;
+		incomeToUpdate.yearlyValue = annualPassiveContribution;
+		incomes.UpdateIncome(2, incomeToUpdate);
+
+		incomeToUpdate = configService.FindOne(3);
+		incomeToUpdate.monthlyValue = monthlyNetIncome;
+        incomeToUpdate.yearlyValue = annualNetIncome;
+        incomes.UpdateIncome(3, incomeToUpdate);
+
+        incomeToUpdate = configService.FindOne(4);
+		incomeToUpdate.monthlyValue = monthlyAvgExtraIncome;
+        incomeToUpdate.yearlyValue = annualAvgExtraIncome;
+        incomes.UpdateIncome(4, incomeToUpdate);
+
+		incomeToUpdate = configService.FindOne(5);
+		incomeToUpdate.monthlyValue = monthlyGrossTotal;
+		incomeToUpdate.yearlyValue = annualGrossTotal;
+		incomes.UpdateIncome(5, incomeToUpdate);
+
+        incomeToUpdate = configService.FindOne(6);
+        incomeToUpdate.monthlyValue = monthlyNetTotal;
+		incomeToUpdate.yearlyValue = annualNetTotal;
+		incomes.UpdateIncome(6, incomeToUpdate);
     }
+    
 }

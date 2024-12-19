@@ -1,0 +1,78 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<main class="main-content">
+	<!-- This will render the content of each page -->
+	@Body
+</main>
+
+<div class="nav-buttons">
+	
+	@* PREVIOUS PAGE LOGIC *@
+	@if (pageList.Current.Previous != null)
+	{
+		<button class="btn btn-primary" @onclick="PreviousPage" disabled="@(!CanMovePrevious)">Previous</button>
+	}
+	else
+	{
+		<button class="btn btn-primary" @onclick="GoBackHome">Go back home</button>
+	}
+
+	@* NEXT PAGE LOGIC *@
+	@if (pageList.Current.Next != null)
+	{
+		<button class="btn btn-primary" @onclick="NextPage" disabled="@(!CanMoveNext)">Next</button>
+	}
+	else
+	{
+		<button class="btn btn-primary" @onclick="Finish">Finish</button>
+	}
+	
+</div>
+
+@code {
+	private bool CanMoveNext => pageList.Current?.Next != null;
+	private bool CanMovePrevious => pageList.Current?.Previous != null;
+
+	private void NextPage()
+	{
+		pageList.MoveNext();
+		currentPage = pageList.GetCurrentPage();
+		NavigationManager.NavigateTo(currentPage);
+	}
+	private void PreviousPage()
+	{
+		pageList.MovePrevious();
+		currentPage = pageList.GetCurrentPage();
+		NavigationManager.NavigateTo(currentPage);
+	}
+	private void Finish()
+	{
+		NavigationManager.NavigateTo("/Weather");
+	}
+	private void GoBackHome() 
+	{
+		NavigationManager.NavigateTo("/Weather");
+	}
+
+	private PageLinkedList<string> pageList;
+	private string currentPage;
+
+	protected override void OnInitialized()
+	{
+		pageList = new PageLinkedList<string>();
+
+		//Adding Pages
+		pageList.Add(@"/");
+		pageList.Add(@"/IncomeBreakdown");
+		pageList.Add(@"/AccountNames");
+		pageList.Add(@"/AssetNames");
+		pageList.Add(@"/LiabilityNames");
+		pageList.Add(@"/AnnualBudget");
+		pageList.Add(@"/MonthlyExpenses");
+		pageList.Add(@"/MonthlyBudget");
+
+		//Set current page
+		currentPage = pageList.GetCurrentPage();
+	}
+}
